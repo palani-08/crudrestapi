@@ -7,7 +7,7 @@ const pool = new Pool({
   port: 5432,
 })
 const getUsers = (request, response) => {
-  pool.query('SELECT * FROM products ORDER BY productid ASC', (error, results) => {
+  pool.query('SELECT * FROM products ORDER BY id ASC', (error, results) => {
     if (error) {
       throw error
     }
@@ -17,7 +17,7 @@ const getUsers = (request, response) => {
 const getUserById = (request, response) => {
   const id = parseInt(request.params.id)
 
-  pool.query('SELECT * FROM products WHERE productid = $1', [productid], (error, results) => {
+  pool.query('SELECT * FROM products WHERE id = $1', [id], (error, results) => {
     if (error) {
       throw error
     }
@@ -25,9 +25,9 @@ const getUserById = (request, response) => {
   })
 }
 const createUser = (request, response) => {
-  const { productid,productname,quantity,price } = request.body
+  const { id,pname,pcost,quantity } = request.body
 
-  pool.query('INSERT INTO products (productid, productname, quantity, price) VALUES ($1, $2, $3, $4)', [productid,productname,quantity,price], (error, results) => {
+  pool.query('INSERT INTO products (id, pname, pcost, quantity) VALUES ($1, $2, $3, $4)', [id,pname,pcost,quantity], (error, results) => {
     if (error) {
       throw error
     }
@@ -36,11 +36,11 @@ const createUser = (request, response) => {
 }
 const updateUser = (request, response) => {
   const id = parseInt(request.params.id)
-  const { productid,productname,quantity,price } = request.body
+  const { id,pname,pcost,quantity } = request.body
 
   pool.query(
-    'UPDATE products SET productname = $2, quantity = $3, price = $4 WHERE productid = $1',
-    [productname, quantity,price,productid],
+    'UPDATE products SET pname = $2, pcost = $3, quantity = $4 WHERE id = $1',
+    [pname,pcost,quantity,id],
     (error, results) => {
       if (error) {
         throw error
@@ -52,7 +52,7 @@ const updateUser = (request, response) => {
 const deleteUser = (request, response) => {
   const id = parseInt(request.params.id)
 
-  pool.query('DELETE FROM products WHERE productid = $1', [id], (error, results) => {
+  pool.query('DELETE FROM products WHERE id = $1', [id], (error, results) => {
     if (error) {
       throw error
     }

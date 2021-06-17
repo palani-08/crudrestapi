@@ -36,7 +36,7 @@ const createUser = (request, response) => {
 }
 const updateUser = (request, response) => {
   const id = parseInt(request.params.id)
-  const { id,pname,pcost,quantity } = request.body
+  const { pname,pcost,quantity } = request.body
 
   pool.query(
     'UPDATE products SET pname = $2, pcost = $3, quantity = $4 WHERE id = $1',
